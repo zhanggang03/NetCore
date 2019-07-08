@@ -1,0 +1,20 @@
+EFCore 包
+Microsoft.EntityFrameworkCore　　EF框架核心包
+
+Microsoft.EntityFrameworkCore.SqlServer　　sql数据库需要，类似的还有mysql、oracle。
+
+Microsoft.EntityFrameworkCore.Proxies  EFCore 延迟加载包
+
+Microsoft.EntityFrameworkCore.Tools (可选)
+
+Microsoft.EntityFrameworkCore.Design　（可选）
+
+Microsoft.EntityFrameworkCore.SqlServer.Design （可选）
+
+
+IOC包
+Unity
+Unity.Microsoft.DependencyInjection
+
+LOG包
+log4net
