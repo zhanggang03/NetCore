@@ -1,0 +1,132 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using IdentityServer4.Test;
+using IdentityServer4.Models;
+using System.Security.Claims;
+using IdentityModel;
+using IdentityServer4;
+
+namespace SSO
+{
+    public class Config
+    {
+        public static List<TestUser> GetUser()
+        {
+            return new List<TestUser>
+            {
+                    new TestUser
+                    {
+                        SubjectId = "1",
+                        Username = "ZG",
+                        Password = "password",
+                        Claims = new List<Claim>(){new Claim(JwtClaimTypes.Role,"superadmin") }
+                    },
+                    new TestUser
+                    {
+                        SubjectId = "2",
+                        Username = "WG",
+                        Password = "password",
+                        Claims = new List<Claim>
+                    {
+                        new Claim("name", "Bob"),
+                        new Claim("website", "https://bob.com")
+                    },
+                   }
+            };
+        }
+
+        public static IEnumerable<Client> GetClient()
+        {
+
+            /*
+             * 作为OAuth2.0客户端，需要注意一下几点：
+四种授权模式：
+
+1. 授权码（认证码）模式 （Authorization code) response_type=code
+
+2. 简化（隐形）模式 (Impilict） response_type=token
+
+3. 用户名密码模式 (Resource Owner Password Credential) grant_type=password
+
+4. 客户端模式 (Client Credential) grant_type=client_credential
+             * */
+
+            return new List<Client>
+            {
+               new Client
+                {
+                    //客户端id自定义
+                    ClientId = "client",
+                    AllowedGrantTypes = GrantTypes.ClientCredentials, ////设置模式，客户端模式
+                    // 加密验证
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    // client可以访问的范围，在GetScopes方法定义的名字。
+                    AllowedScopes = new List<string>
+                    {
+                        "MsCoreApi"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "mvc",
+                    ClientName = "MVC Client",
+                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    ClientSecrets =
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                    },
+                    AllowOfflineAccess = true,
+                    RequireConsent = false
+                },
+                new Client
+                {
+                    ClientId = "js",
+                    ClientName = "JavaScript Client",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { "http://localhost:5003/callback.html" },
+                    PostLogoutRedirectUris = { "http://localhost:5003/index.html" },
+                    AllowedCorsOrigins = { "http://localhost:5003" },
+
+                    AllowedScopes =
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "MsCoreApi"
+                    },
+                }
+            };
+        }
+
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new List<IdentityResource>
+            {
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+            };
+        }
+
+        public static IEnumerable<ApiResource> GetApiResources()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("MsCoreApi", "My API")
+            };
+        }
+
+    }
+}

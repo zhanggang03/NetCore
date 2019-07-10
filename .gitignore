@@ -1,3 +1,5 @@
+/APPClient/bin
+/APPClient/obj
 
 /BLL/bin
 /BLL/obj
@@ -20,3 +22,9 @@
 /MSCore/bin
 /MSCore/obj
 /MSCore/.vs
+
+/SSO/bin
+/SSO/obj
+/SSO/.vs
+
+
