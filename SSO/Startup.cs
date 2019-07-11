@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -42,26 +43,24 @@ namespace SSO
                 .AddDeveloperSigningCredential()
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClient())
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddTestUsers(Config.GetUser());
-                //从数据库增加数据
-                //.AddConfigurationStore(options =>
-                //{
-                //     options.ConfigureDbContext = builder =>
-                //        builder.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
-                //})
-                //// this adds the operational data from DB (codes, tokens, consents)
-                //.AddOperationalStore(options =>
-                //{
-                //    options.ConfigureDbContext = builder =>
-                //        builder.UseSqlServer(connectionString,
-                //            sql => sql.MigrationsAssembly(migrationsAssembly));
+                .AddInMemoryIdentityResources(Config.GetIdentityResources());
+            //从数据库增加数据
+            //.AddConfigurationStore(options =>
+            //{
+            //     options.ConfigureDbContext = builder =>
+            //        builder.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+            //})
+            //// this adds the operational data from DB (codes, tokens, consents)
+            //.AddOperationalStore(options =>
+            //{
+            //    options.ConfigureDbContext = builder =>
+            //        builder.UseSqlServer(connectionString,
+            //            sql => sql.MigrationsAssembly(migrationsAssembly));
 
-                //    // this enables automatic token cleanup. this is optional.
-                //    options.EnableTokenCleanup = false;//是否从数据库清楚令牌数据，默认为false
-                //    options.TokenCleanupInterval = 300;//令牌过期时间，默认为3600秒，一个小时
-                //});
-
+            //    // this enables automatic token cleanup. this is optional.
+            //    options.EnableTokenCleanup = false;//是否从数据库清楚令牌数据，默认为false
+            //    options.TokenCleanupInterval = 300;//令牌过期时间，默认为3600秒，一个小时
+            //});
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

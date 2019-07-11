@@ -86,6 +86,7 @@ namespace SSO
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                     },
+                    AlwaysIncludeUserClaimsInIdToken = true,
                     AllowOfflineAccess = true,
                     RequireConsent = false,      //是否需要用户点击确认进行跳转
                     AllowAccessTokensViaBrowser = true // can return access_token to this client
@@ -93,7 +94,7 @@ namespace SSO
                 new Client
                 {
                     ClientId = "mvc1",
-                    AllowedGrantTypes = GrantTypes.Implicit,  //模式：隐式模式
+                    AllowedGrantTypes = GrantTypes.Hybrid,  //模式：隐式模式
                     ClientSecrets =   //私钥
                     {
                         new Secret("secret".Sha256())
@@ -104,8 +105,10 @@ namespace SSO
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "MsCoreApi"
+                        "MsCoreApi",
+                        "roles",    //User 的Claims中含有Role字段
                     },
+                    AlwaysIncludeUserClaimsInIdToken = true,
                     AllowOfflineAccess = true,
                     RequireConsent = false,      //是否需要用户点击确认进行跳转
                     AllowAccessTokensViaBrowser = true // can return access_token to this client
@@ -137,6 +140,7 @@ namespace SSO
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
+                new IdentityResource("roles","role",new List<string>{ "role"})   //自定义IdentityResource
             };
         }
 
@@ -149,6 +153,7 @@ namespace SSO
                     ApiSecrets =                     {
                         new Secret("secret".Sha256())
                     },
+                    UserClaims = new [] { "role" }   //在JWT Token中包含Role 资源
                 }
             };
         }

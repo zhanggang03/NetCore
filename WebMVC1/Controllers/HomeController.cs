@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -16,6 +17,11 @@ namespace WebMVC1.Controllers
     {
         public async Task<IActionResult> Index()
         {
+            //获取用户信息
+            var claimIdentity = (ClaimsIdentity)HttpContext.User.Identity;
+            var claimsPrincipal = claimIdentity.Claims as List<Claim>;
+
+            //获取用户token
             var accessToken = await HttpContext.GetTokenAsync("access_token");
             var client = new HttpClient();
             client.SetBearerToken(accessToken);

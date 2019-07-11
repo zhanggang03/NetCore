@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -45,11 +46,23 @@ namespace WebMVC1
                    options.Authority = "https://localhost:44379";
                    options.RequireHttpsMetadata = true;
                    options.ClientId = "mvc1";
-                   options.ResponseType = "id_token token";   //允许返回access token
+                   //options.ResponseType = "id_token token";   //允许返回access token
+                   options.ResponseType = "id_token code";
                    options.GetClaimsFromUserInfoEndpoint = true;
-                   //options.ClientSecret = "secret";
+                   options.ClientSecret = "secret";
                    options.SaveTokens = true;
+                   options.Scope.Clear();
+                   options.Scope.Add("openid");
+                   options.Scope.Add("profile");
                    options.Scope.Add("MsCoreApi");
+                   options.Scope.Add("roles");   //定义使用范围
+
+                   //options.ClaimActions.MapUniqueJsonKey("role", "role");
+                   //options.TokenValidationParameters = new TokenValidationParameters
+                   //{
+                   //    NameClaimType = JwtClaimTypes.GivenName,
+                   //    RoleClaimType = JwtClaimTypes.Role
+                   //};
                });
 
 
