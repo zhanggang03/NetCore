@@ -17,6 +17,9 @@ log4net
 IdentityServer4包
 IdentityServer4  (IdentityServer4服务核心包)
 IdentityServer4.EntityFramework  （数据库持久化包，已注释）
+//https://www.jianshu.com/p/27e636070449重要参考
 
 增加 AppClient  访问MSCore（API） 的权限控制，使用JWT
+
+增加MVC，MVC1客户端，其中MVC1 可以访问API
 

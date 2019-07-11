@@ -12,23 +12,14 @@ namespace SSO.Controllers
 {
     public class AccountController : Controller
     {
-        //private IAdminService _adminService;//自己写的操作数据库Admin表的service
         private readonly IIdentityServerInteractionService _interaction;
-        private readonly IClientStore _clientStore;
-        private readonly IAuthenticationSchemeProvider _schemeProvider;
-        private readonly IEventService _events;
         public AccountController(IIdentityServerInteractionService interaction,
             IClientStore clientStore,
             IAuthenticationSchemeProvider schemeProvider,
             IEventService events
-            //IAdminService adminService
             )
         {
             _interaction = interaction;
-            _clientStore = clientStore;
-            _schemeProvider = schemeProvider;
-            _events = events;
-            //_adminService = adminService;
         }
 
         /// <summary>

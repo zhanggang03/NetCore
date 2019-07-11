@@ -74,21 +74,41 @@ namespace SSO
                 new Client
                 {
                     ClientId = "mvc",
-                    ClientName = "MVC Client",
-                    AllowedGrantTypes = GrantTypes.Hybrid,
-                    ClientSecrets =
+                    AllowedGrantTypes = GrantTypes.Implicit,  //模式：隐式模式
+                    ClientSecrets =   //私钥
                     {
                         new Secret("secret".Sha256())
                     },
-                    RedirectUris = { "http://localhost:5002/signin-oidc" },
-                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
-                    AllowedScopes =
+                    RedirectUris = { "https://localhost:44346/signin-oidc" },   //跳转登录到的客户端的地址
+                    PostLogoutRedirectUris = { "https://localhost:44346/signout-callback-oidc" },  //跳转登出到的客户端的地址
+                    AllowedScopes =  //运行访问的资源
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                     },
                     AllowOfflineAccess = true,
-                    RequireConsent = false
+                    RequireConsent = false,      //是否需要用户点击确认进行跳转
+                    AllowAccessTokensViaBrowser = true // can return access_token to this client
+                },
+                new Client
+                {
+                    ClientId = "mvc1",
+                    AllowedGrantTypes = GrantTypes.Implicit,  //模式：隐式模式
+                    ClientSecrets =   //私钥
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    RedirectUris = { "https://localhost:44365/signin-oidc" },   //跳转登录到的客户端的地址
+                    PostLogoutRedirectUris = { "https://localhost:44365/signout-callback-oidc" },  //跳转登出到的客户端的地址
+                    AllowedScopes =  //运行访问的资源
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "MsCoreApi"
+                    },
+                    AllowOfflineAccess = true,
+                    RequireConsent = false,      //是否需要用户点击确认进行跳转
+                    AllowAccessTokensViaBrowser = true // can return access_token to this client
                 },
                 new Client
                 {
@@ -124,7 +144,12 @@ namespace SSO
         {
             return new List<ApiResource>
             {
-                new ApiResource("MsCoreApi", "My API")
+                new ApiResource("MsCoreApi", "MyAPI")
+                {
+                    ApiSecrets =                     {
+                        new Secret("secret".Sha256())
+                    },
+                }
             };
         }
 

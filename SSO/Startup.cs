@@ -89,7 +89,12 @@ namespace SSO
             //将IddiTyServer添加到管道中。
             app.UseIdentityServer();
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Account}/{action=Login}/{id?}");
+            });
         }
 
         private void InitializeDatabase(IApplicationBuilder app)
