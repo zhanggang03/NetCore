@@ -15,7 +15,8 @@ using WebMVC1.Models;
 
 namespace WebMVC1.Controllers
 {
-    [Authorize]
+    //[Authorize]
+    [Authorize(Roles = "admin")]
     public class HomeController : Controller
     {
         public async Task<IActionResult> Index()

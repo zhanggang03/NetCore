@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityModel;
 using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 
 namespace WebMVC1
 {
@@ -82,12 +84,12 @@ namespace WebMVC1
                        OnUserInformationReceived = OnUserInformationReceived
                    };
 
-                   //options.ClaimActions.MapUniqueJsonKey("role", "role");
-                   //options.TokenValidationParameters = new TokenValidationParameters
-                   //{
-                   //    NameClaimType = JwtClaimTypes.GivenName,
-                   //    RoleClaimType = JwtClaimTypes.Role
-                   //};
+                   options.ClaimActions.MapUniqueJsonKey("role", "role");
+                   options.TokenValidationParameters = new TokenValidationParameters
+                   {
+                       NameClaimType = JwtClaimTypes.GivenName,
+                       RoleClaimType = JwtClaimTypes.Role
+                   };
                });
 
 
