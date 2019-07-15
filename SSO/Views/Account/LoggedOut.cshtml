@@ -1,0 +1,23 @@
+﻿@using SSO.Model;
+
+@{
+    ViewData["Title"] = "LoggedOut";
+}
+@model LoggedOutViewModel;
+
+
+<script type="text/javascript">
+    window.onload=function (){
+        window.location = "@Model.PostLogoutRedirectUri";
+    }
+</script>
+
+
+<div class="page-header logged-out">
+    <small>You are now logged out</small>
+    ...
+    @if (Model.SignOutIframeUrl != null)
+    {
+        <iframe width="0" height="0" class="signout" src="@Model.SignOutIframeUrl"></iframe>
+    }
+</div>

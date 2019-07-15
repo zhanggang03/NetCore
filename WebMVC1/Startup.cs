@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
+using IdentityServer4;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -39,16 +41,23 @@ namespace WebMVC1
                 options.DefaultScheme = "Cookies";   //使用Cookies认证
                 options.DefaultChallengeScheme = "oidc";  //使用oidc
             })
-               .AddCookie("Cookies")   //配置Cookies认证
+               .AddCookie("Cookies",
+               options =>
+               {
+
+                   options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                   options.Cookie.Name = "mvc1";
+
+               })   //配置Cookies认证
                .AddOpenIdConnect("oidc", options =>    //配置oidc
                {
                    options.SignInScheme = "Cookies";
                    options.Authority = "https://localhost:44379";
                    options.RequireHttpsMetadata = true;
                    options.ClientId = "mvc1";
-                   //options.ResponseType = "id_token token";   //允许返回access token
                    options.ResponseType = "id_token code";
                    options.GetClaimsFromUserInfoEndpoint = true;
+                   //options.SignedOutCallbackPath = "/signout-callback-oidc";  //调用idrs4执行事件
                    options.ClientSecret = "secret";
                    options.SaveTokens = true;
                    options.Scope.Clear();
@@ -56,6 +65,22 @@ namespace WebMVC1
                    options.Scope.Add("profile");
                    options.Scope.Add("MsCoreApi");
                    options.Scope.Add("roles");   //定义使用范围
+
+                   options.Events = new OpenIdConnectEvents
+                   {
+                       OnRedirectToIdentityProvider = OnRedirectToIdentityProvider,
+                       OnSignedOutCallbackRedirect = OnSignedOutCallbackRedirect,
+                       OnRemoteSignOut = OnRemoteSignOut,
+                       OnRemoteFailure = OnRemoteFailure,
+                       OnAuthenticationFailed = OnAuthenticationFailed,
+                       OnRedirectToIdentityProviderForSignOut = OnRedirectToIdentityProviderForSignOut,
+                       OnAuthorizationCodeReceived = OnAuthorizationCodeReceived,
+                       OnMessageReceived = OnMessageReceived,
+                       OnTicketReceived = OnTicketReceived,
+                       OnTokenResponseReceived = OnTokenResponseReceived,
+                       OnTokenValidated = OnTokenValidated,
+                       OnUserInformationReceived = OnUserInformationReceived
+                   };
 
                    //options.ClaimActions.MapUniqueJsonKey("role", "role");
                    //options.TokenValidationParameters = new TokenValidationParameters
@@ -68,6 +93,72 @@ namespace WebMVC1
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
+
+        #region  Events事件
+        private static Task OnRedirectToIdentityProvider(RedirectContext context)
+        {
+            if (context.HttpContext.Items.ContainsKey("idp"))
+            {
+                var idp = context.HttpContext.Items["idp"];
+                context.ProtocolMessage.AcrValues = "idp:" + idp;
+            }
+
+            return Task.FromResult(0);
+        }
+
+        private static Task OnSignedOutCallbackRedirect(RemoteSignOutContext context)
+        {
+            return Task.FromResult(0);
+        }
+
+        private static Task OnRemoteSignOut(RemoteSignOutContext context)
+        {
+            return Task.FromResult(0);
+        }
+
+        private static Task OnRemoteFailure(RemoteFailureContext context)
+        {
+            return Task.FromResult(0);
+        }
+
+        private static Task OnAuthenticationFailed(AuthenticationFailedContext context)
+        {
+            return Task.FromResult(0);
+        }
+
+        private static Task OnRedirectToIdentityProviderForSignOut(RedirectContext context)
+        {
+            return Task.FromResult(0);
+        }
+        private static Task OnAuthorizationCodeReceived(AuthorizationCodeReceivedContext context)
+        {
+            return Task.FromResult(0);
+        }
+        private static Task OnMessageReceived(MessageReceivedContext context)
+        {
+            return Task.FromResult(0);
+        }
+
+        private static Task OnTicketReceived(TicketReceivedContext context)
+        {
+            return Task.FromResult(0);
+        }
+
+        private static Task OnTokenResponseReceived(TokenResponseReceivedContext context)
+        {
+            return Task.FromResult(0);
+        }
+
+        private static Task OnTokenValidated(TokenValidatedContext context)
+        {
+            return Task.FromResult(0);
+        }
+
+        private static Task OnUserInformationReceived(UserInformationReceivedContext context)
+        {
+            return Task.FromResult(0);
+        }
+        #endregion
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -93,6 +184,11 @@ namespace WebMVC1
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.Run(async context =>
+            {
+                int i = 1;
             });
         }
     }

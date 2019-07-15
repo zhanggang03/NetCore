@@ -27,3 +27,4 @@ F:\MSCore\WebMVC\obj\Debug\netcoreapp2.2\WebMVC.Views.pdb
 F:\MSCore\WebMVC\obj\Debug\netcoreapp2.2\WebMVC.dll
 F:\MSCore\WebMVC\obj\Debug\netcoreapp2.2\WebMVC.pdb
 F:\MSCore\WebMVC\obj\Debug\netcoreapp2.2\WebMVC.csproj.CopyComplete
+F:\MSCore\WebMVC\obj\Debug\netcoreapp2.2\WebMVC.csprojAssemblyReference.cache

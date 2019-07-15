@@ -38,7 +38,13 @@ namespace WebMVC
                 options.DefaultScheme = "Cookies";   //使用Cookies认证
                 options.DefaultChallengeScheme = "oidc";  //使用oidc
             })
-               .AddCookie("Cookies")   //配置Cookies认证
+               .AddCookie("Cookies", options =>
+               {
+
+                   options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+                   options.Cookie.Name = "mvc";
+
+               })   //配置Cookies认证
                .AddOpenIdConnect("oidc", options =>    //配置oidc
                {
                    options.SignInScheme = "Cookies";

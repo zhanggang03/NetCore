@@ -86,6 +86,7 @@ namespace SSO
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                     },
+                    FrontChannelLogoutUri = "https://localhost:44346/signout-oidc",  //调用Client执行事件
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AllowOfflineAccess = true,
                     RequireConsent = false,      //是否需要用户点击确认进行跳转
@@ -108,6 +109,8 @@ namespace SSO
                         "MsCoreApi",
                         "roles",    //User 的Claims中含有Role字段
                     },
+                    FrontChannelLogoutUri = "https://localhost:44365/signout-oidc",  //调用Client执行事件
+                    //BackChannelLogoutUri = "https://localhost:44365/signout-oidc",
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AllowOfflineAccess = true,
                     RequireConsent = false,      //是否需要用户点击确认进行跳转

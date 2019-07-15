@@ -5,7 +5,10 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebMVC1.Models;
@@ -29,6 +32,30 @@ namespace WebMVC1.Controllers
             var content = await client.GetStringAsync("https://localhost:44312/api/Identity");
 
             return View();
+        }
+
+        public async void Logout()    //返回类型必须是Void值
+        {
+            //await HttpContext.SignOutAsync("Cookies");   //删除本地Cookies
+            await HttpContext.SignOutAsync("oidc");      //请求删除idr4服务器的Cookies
+        }
+
+
+        [AllowAnonymous]
+        public async Task<IActionResult> FrontChannelLogout(string sid)
+        {
+            //if (User.Identity.IsAuthenticated)
+            //{
+            //    var currentSid = User.FindFirst("sid")?.Value ?? "";
+            //    if (string.Equals(currentSid, sid, StringComparison.Ordinal))
+            //{
+            //    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //}
+            // }
+            //return NoContent();
+            await HttpContext.SignOutAsync("Cookies");
+            await HttpContext.SignOutAsync("oidc");
+            return NoContent();
         }
 
         public IActionResult Privacy()
