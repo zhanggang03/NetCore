@@ -71,6 +71,19 @@ namespace SSO
                         "MsCoreApi"
                     }
                 },
+               new Client
+                {
+                    ClientId = "core_swagger",//客服端名称
+                    AllowedGrantTypes = GrantTypes.Implicit,//指定允许的授权类型（AuthorizationCode，Implicit，Hybrid，ResourceOwner，ClientCredentials的合法组合）。
+                    AllowAccessTokensViaBrowser = true,//是否通过浏览器为此客户端传输访问令牌
+                    RedirectUris =
+                    {
+                        "https://localhost:44312/oauth2-redirect.html"
+                    },
+                    AllowedScopes = {
+                       "MsCoreApi"
+                   }//指定客户端请求的api作用域。 如果为空，则客户端无法访问
+                },
                 new Client
                 {
                     ClientId = "mvc",
@@ -114,7 +127,7 @@ namespace SSO
                     AlwaysIncludeUserClaimsInIdToken = true,
                     AllowOfflineAccess = true,
                     RequireConsent = false,      //是否需要用户点击确认进行跳转
-                    AllowAccessTokensViaBrowser = true // can return access_token to this client
+                    AllowAccessTokensViaBrowser = true, // can return access_token to this client
                 },
                 new Client
                 {

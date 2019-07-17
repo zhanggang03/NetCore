@@ -15,6 +15,11 @@ using Microsoft.Extensions.Options;
 using Model;
 using ViewModelMap;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Reflection;
+using System.IO;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using MSCore.API;
 
 namespace MSCore
 {
@@ -58,11 +63,58 @@ namespace MSCore
                     options.Audience = "MsCoreApi";
                 });
 
+            services.AddApiVersioning(option => {
+                option.AssumeDefaultVersionWhenUnspecified = true;
+                option.ReportApiVersions = false;
+            }).AddVersionedApiExplorer(option => {
+                option.GroupNameFormat = "'v'VVV";
+                option.AssumeDefaultVersionWhenUnspecified = true;
+            });
+            var provider = services.BuildServiceProvider().GetRequiredService<IApiVersionDescriptionProvider>();
+            services.AddSwaggerGen(gen =>
+            {
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+
+                    gen.SwaggerDoc(description.GroupName, new Info
+                    {
+                        Version = description.ApiVersion.ToString(),
+                        Title = $"微服务接口 v{description.ApiVersion}",
+                        Description = "切换版本请点右上角版本切换",
+                        Contact = new Contact
+                        {
+                            Name = "ZG",
+                            Email = string.Empty,
+                        },
+                    });
+                }
+                //var xmlFile = $"ServicesApi.xml";
+                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                //gen.IncludeXmlComments(xmlPath);
+
+                //var xmlModelFile = "ServicesDomain.xml";
+                //var xmlMolelPath = Path.Combine(AppContext.BaseDirectory, xmlModelFile);
+                //gen.IncludeXmlComments(xmlMolelPath);
+
+                //接入identityserver
+                gen.AddSecurityDefinition("oauth2", new OAuth2Scheme
+                {
+                    Flow = "implicit", //只需要通过浏览器获取令牌，适用于Swagger
+                    AuthorizationUrl = "https://localhost:44379/connect/authorize",//获取登录授权接口  
+                    Scopes = new Dictionary<string, string>
+                    {
+                        { "MsCoreApi", "同意 MsCoreApi 的访问权限" }//指定客户端请求的api作用域。 如果为空，则客户端无法访问
+                    }
+                });
+                gen.OperationFilter<AuthorizeCheckOperationFilter>(); // 添加IdentityServer4认证过滤
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DataContext dataContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, DataContext dataContext
+            , IApiVersionDescriptionProvider provider)
         {
             //new DbInitializer().InitializeAsync(dataContext);
             if (env.IsDevelopment())
@@ -76,6 +128,21 @@ namespace MSCore
 
             //配置Authentication中间件
             app.UseAuthentication();
+
+            //配置Swagger中间件
+            app.UseSwagger();
+            // 使中间件能够服务于轻量级用户界面（HTML、JS、CSS等），并指定SWAGJER JSON端点
+            app.UseSwaggerUI(ui =>
+            {
+                foreach (var description in provider.ApiVersionDescriptions)
+                {
+                    ui.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", $"{description.GroupName} CoreAPI");
+                }
+                //要在应用程序的根处提供Swagger UI ，请将该RoutePrefix属性设置为空字符串
+                ui.RoutePrefix = string.Empty;
+                ui.OAuthClientId("core_swagger");
+                ui.OAuthAppName("Core API 服务");
+            });
 
             app.UseHttpsRedirection();
             app.UseMvc();

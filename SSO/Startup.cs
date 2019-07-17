@@ -41,36 +41,36 @@ namespace SSO
 
             services.AddIdentityServer(idroptions =>
             {
-                //idroptions.Authentication = new IdentityServer4.Configuration.AuthenticationOptions
-                //{
-                //    //监控浏览器cookie不难发现idr4.SessionId=8660972474e55224ff37f7421c79a530 实际是cookie记录服务器session的名称
-                //    CheckSessionCookieName = "idr4.SessionId", // CookieAuthenticationDefaults.AuthenticationScheme,//用于检查会话端点的cookie的名称
-                //    CookieLifetime = new TimeSpan(1, 0, 0),//身份验证Cookie生存期（仅在使用IdentityServer提供的Cookie处理程序时有效）
-                //    CookieSlidingExpiration = true,//指定cookie是否应该滑动（仅在使用IdentityServer提供的cookie处理程序时有效）
-                //    RequireAuthenticatedUserForSignOutMessage = true //指示是否必须对用户进行身份验证才能接受参数以结束会话端点。默认为false
-                //};
-                ////活动事件 允许配置是否应该将哪些事件提交给注册的事件接收器
-                //idroptions.Events = new IdentityServer4.Configuration.EventsOptions
-                //{
-                //    RaiseErrorEvents = true,
-                //    RaiseFailureEvents = true,
-                //    RaiseSuccessEvents = true,
-                //    RaiseInformationEvents = true
-                //};
-                //idroptions.UserInteraction = new IdentityServer4.Configuration.UserInteractionOptions
-                //{
+                idroptions.Authentication = new IdentityServer4.Configuration.AuthenticationOptions
+                {
+                    //监控浏览器cookie不难发现idr4.SessionId=8660972474e55224ff37f7421c79a530 实际是cookie记录服务器session的名称
+                    CheckSessionCookieName = "idr4.SessionId", // CookieAuthenticationDefaults.AuthenticationScheme,//用于检查会话端点的cookie的名称
+                    CookieLifetime = new TimeSpan(1, 0, 0),//身份验证Cookie生存期（仅在使用IdentityServer提供的Cookie处理程序时有效）
+                    CookieSlidingExpiration = true,//指定cookie是否应该滑动（仅在使用IdentityServer提供的cookie处理程序时有效）
+                    RequireAuthenticatedUserForSignOutMessage = true //指示是否必须对用户进行身份验证才能接受参数以结束会话端点。默认为false
+                };
+                //活动事件 允许配置是否应该将哪些事件提交给注册的事件接收器
+                idroptions.Events = new IdentityServer4.Configuration.EventsOptions
+                {
+                    RaiseErrorEvents = true,
+                    RaiseFailureEvents = true,
+                    RaiseSuccessEvents = true,
+                    RaiseInformationEvents = true
+                };
+                idroptions.UserInteraction = new IdentityServer4.Configuration.UserInteractionOptions
+                {
 
-                //    LoginUrl = "/Account/Login",//【必备】登录地址  
-                //    LogoutUrl = "/Account/Logout",//【必备】退出地址 
-                //    ConsentUrl = "/Consent/Index",//【必备】允许授权同意页面地址
-                //    ErrorUrl = "/Error/Index", //【必备】错误页面地址
-                //    LoginReturnUrlParameter = "returnUrl",//【必备】设置传递给登录页面的返回URL参数的名称。默认为returnUrl 
-                //    LogoutIdParameter = "logoutId", //【必备】设置传递给注销页面的注销消息ID参数的名称。缺省为logoutId 
-                //    ConsentReturnUrlParameter = "returnUrl", //【必备】设置传递给同意页面的返回URL参数的名称。默认为returnUrl
-                //    ErrorIdParameter = "errorId", //【必备】设置传递给错误页面的错误消息ID参数的名称。缺省为errorId
-                //    CustomRedirectReturnUrlParameter = "returnUrl", //【必备】设置从授权端点传递给自定义重定向的返回URL参数的名称。默认为returnUrl
-                //    CookieMessageThreshold = 5 //【必备】由于浏览器对Cookie的大小有限制，设置Cookies数量的限制，有效的保证了浏览器打开多个选项卡，一旦超出了Cookies限制就会清除以前的Cookies值
-                //};
+                    LoginUrl = "/Account/Login",//【必备】登录地址  
+                    LogoutUrl = "/Account/Logout",//【必备】退出地址 
+                    ConsentUrl = "/Consent/Index",//【必备】允许授权同意页面地址
+                    ErrorUrl = "/Error/Index", //【必备】错误页面地址
+                    LoginReturnUrlParameter = "returnUrl",//【必备】设置传递给登录页面的返回URL参数的名称。默认为returnUrl 
+                    LogoutIdParameter = "logoutId", //【必备】设置传递给注销页面的注销消息ID参数的名称。缺省为logoutId 
+                    ConsentReturnUrlParameter = "returnUrl", //【必备】设置传递给同意页面的返回URL参数的名称。默认为returnUrl
+                    ErrorIdParameter = "errorId", //【必备】设置传递给错误页面的错误消息ID参数的名称。缺省为errorId
+                    CustomRedirectReturnUrlParameter = "returnUrl", //【必备】设置从授权端点传递给自定义重定向的返回URL参数的名称。默认为returnUrl
+                    CookieMessageThreshold = 5 //【必备】由于浏览器对Cookie的大小有限制，设置Cookies数量的限制，有效的保证了浏览器打开多个选项卡，一旦超出了Cookies限制就会清除以前的Cookies值
+                };
                 //缓存参数处理  缓存起来提高了效率 不用每次从数据库查询
                 //idroptions.Caching = new IdentityServer4.Configuration.CachingOptions
                 //{

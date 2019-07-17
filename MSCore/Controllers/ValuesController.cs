@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MSCore.Controllers
 {
+    [ApiVersion("2.0")]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase

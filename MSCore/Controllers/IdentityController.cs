@@ -8,11 +8,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace MSCore.Controllers
 {
+    [ApiVersion("1.0")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
     public class IdentityController : ControllerBase
     {
+        /// <summary>
+        /// 测试
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {
