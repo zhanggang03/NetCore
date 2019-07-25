@@ -17,11 +17,7 @@
         "Period": "1m", //限流时间段，1s(1秒),1m(1分)，1h(1小时)类似值
         "PeriodTimespan": 30, //超过限流限制的次数后，需要等待重置的时间（单位是秒）
         "Limit": 2 //在Period时间内最大能访问的数量
-      },
-      //"AuthenticationOptions": {
-      //  "AuthenticationProviderKey": "WebApiAKey",
-      //  "AllowedScopes": []
-      //}
+      }
     },
     {
       "DownstreamPathTemplate": "/api/values",
@@ -33,11 +29,7 @@
         }
       ],
       "UpstreamPathTemplate": "/webapib/values",
-      "UpstreamHttpMethod": [ "Get" ],
-      //"AuthenticationOptions": {
-       // "AuthenticationProviderKey": "WebApiBKey",
-       // "AllowedScopes": []
-      //}
+      "UpstreamHttpMethod": [ "Get" ]
     },
 
     {

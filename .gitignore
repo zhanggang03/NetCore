@@ -1,6 +1,9 @@
 /APPClient/bin
 /APPClient/obj
 
+/APPClientPassword/bin
+/APPClientPassword/obj
+
 /BLL/bin
 /BLL/obj
 

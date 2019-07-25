@@ -25,11 +25,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMVC", "..\WebMVC\WebMVC.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMVC1", "..\WebMVC1\WebMVC1.csproj", "{B8BE4E32-2154-42EF-B8FB-0BC9D71C7286}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OcelotGetway", "..\OcelotGetway\OcelotGetway.csproj", "{980D8A94-89AD-4F24-9BDC-7F23AFEC8FEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OcelotGetway", "..\OcelotGetway\OcelotGetway.csproj", "{980D8A94-89AD-4F24-9BDC-7F23AFEC8FEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiA", "..\WebApiA\WebApiA.csproj", "{C2848E72-E9A8-4057-802C-36F4CBE0FD97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiA", "..\WebApiA\WebApiA.csproj", "{C2848E72-E9A8-4057-802C-36F4CBE0FD97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiB", "..\WebApiB\WebApiB.csproj", "{72756CBB-6AA7-4774-AB35-BBF62BFB7190}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiB", "..\WebApiB\WebApiB.csproj", "{72756CBB-6AA7-4774-AB35-BBF62BFB7190}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APPClientPassword", "..\APPClientPassword\APPClientPassword.csproj", "{E1F177D4-0143-467F-8D1D-E7001300AE15}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{72756CBB-6AA7-4774-AB35-BBF62BFB7190}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72756CBB-6AA7-4774-AB35-BBF62BFB7190}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72756CBB-6AA7-4774-AB35-BBF62BFB7190}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1F177D4-0143-467F-8D1D-E7001300AE15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1F177D4-0143-467F-8D1D-E7001300AE15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1F177D4-0143-467F-8D1D-E7001300AE15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1F177D4-0143-467F-8D1D-E7001300AE15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

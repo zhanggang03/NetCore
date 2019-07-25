@@ -49,6 +49,9 @@ namespace WebApiA
                 app.UseHsts();
             }
 
+            //配置Authentication中间件
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }

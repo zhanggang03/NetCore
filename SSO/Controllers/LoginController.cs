@@ -25,13 +25,6 @@ namespace SSO.Controllers
         [HttpPost]
         public async Task<ActionResult> RequestToken(LoginRequestParam model)
         {
-            Dictionary<string, string> dict = new Dictionary<string, string>();
-            dict["client_id"] = model.ClientId;
-            dict["client_secret"] = "secret";
-            dict["grant_type"] = "password";
-            dict["username"] = model.UserName;
-            dict["password"] = model.Password;
-
             var client = new HttpClient();
             var disco = await client.GetDiscoveryDocumentAsync("https://localhost:44379");
             var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
