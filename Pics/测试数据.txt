@@ -46,9 +46,17 @@ https://localhost:44397/Count
 https://localhost:44397/Now
 https://localhost:44397/GetName
 
+https://localhost:44397/api/identityservice/Login
+https://localhost:44379/api/Login
+
 https://localhost:44324/api/User/GetSex?name=Jonathan
 https://localhost:44324/api/Time/GetNow
 https://localhost:44324/api/Slow/GetName
+
+
+https://localhost:44397/api/identityservice/Login
+
+
 
 
 

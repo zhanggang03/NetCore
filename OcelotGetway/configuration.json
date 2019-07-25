@@ -107,7 +107,9 @@
       "UpstreamPathTemplate": "/count",
       "UpstreamHttpMethod": [ "Get" ],
       "ServiceName": "Count", //指定服务发现的服务名称，在Consul中注册服务中用到
-      "LoadBalancer": "RoundRobin", //负载均衡模式 RoundRobin 时间片轮询  LeastConnection 最少连接   
+      "LoadBalancerOptions": { //负载均衡模式 RoundRobin 时间片轮询  LeastConnection 最少连接  CookieStickySessions 有了负载均衡，但是没有独立session state服务器造成的问题而出现的
+        "Type": "RoundRobin"
+      },
       "UseServiceDiscovery": true //标志是否使用服务发现
     },
 
