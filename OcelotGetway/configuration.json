@@ -11,13 +11,17 @@
       ],
       "UpstreamPathTemplate": "/webapia/values",
       "UpstreamHttpMethod": [ "Get" ],
-      "RateLimitOptions": {     //添加限流
-        "ClientWhiteList": [ "myclient" ],   //白名单，不在限流的范围内
-        "EnableRateLimiting":  true,     //是否限流，如果true，配置生效
-        "Period": "1m",       //限流时间段，1s(1秒),1m(1分)，1h(1小时)类似值
-        "PeriodTimespan": 30,  //超过限流限制的次数后，需要等待重置的时间（单位是秒）
-        "Limit": 2    //在Period时间内最大能访问的数量
-      }
+      "RateLimitOptions": { //添加限流
+        "ClientWhiteList": [ "myclient" ], //白名单，不在限流的范围内
+        "EnableRateLimiting": true, //是否限流，如果true，配置生效
+        "Period": "1m", //限流时间段，1s(1秒),1m(1分)，1h(1小时)类似值
+        "PeriodTimespan": 30, //超过限流限制的次数后，需要等待重置的时间（单位是秒）
+        "Limit": 2 //在Period时间内最大能访问的数量
+      },
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "WebApiAKey",
+      //  "AllowedScopes": []
+      //}
     },
     {
       "DownstreamPathTemplate": "/api/values",
@@ -29,7 +33,11 @@
         }
       ],
       "UpstreamPathTemplate": "/webapib/values",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      //"AuthenticationOptions": {
+       // "AuthenticationProviderKey": "WebApiBKey",
+       // "AllowedScopes": []
+      //}
     },
 
     {
@@ -140,11 +148,45 @@
       ],
       "UpstreamPathTemplate": "/GetName",
       "UpstreamHttpMethod": [ "Get" ],
-      "QoSOptions": {                           //熔断设置
-        "ExceptionsAllowedBeforeBreaking": 3,   //发生几次请求异常（比如超时）后进行熔断，该值必须大于0
-        "DurationOfBreak": 60000,   //熔断时间（毫秒）
-        "TimeoutValue": 3000        //下游请求超时时间（毫秒，默认90秒）
+      "QoSOptions": { //熔断设置
+        "ExceptionsAllowedBeforeBreaking": 3, //发生几次请求异常（比如超时）后进行熔断，该值必须大于0
+        "DurationOfBreak": 60000, //熔断时间（毫秒）
+        "TimeoutValue": 3000 //下游请求超时时间（毫秒，默认90秒）
       }
+    },
+
+    // --> Identity Service Part
+    {
+      "UseServiceDiscovery": false, // do not use Consul service discovery in DEV env
+      "DownstreamPathTemplate": "/api/{url}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 44379
+        }
+      ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
+      "UpstreamPathTemplate": "/api/identityservice/{url}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [ "admin" ], // 白名单
+        "EnableRateLimiting": true, // 是否启用限流
+        "Period": "1m", // 统计时间段：1s, 5m, 1h, 1d
+        "PeriodTimespan": 15, // 多少秒之后客户端可以重试
+        "Limit": 10 // 在统计时间段内允许的最大请求数量
+      },
+      "QoSOptions": {
+        "ExceptionsAllowedBeforeBreaking": 2, // 允许多少个异常请求
+        "DurationOfBreak": 5000, // 熔断的时间，单位为秒
+        "TimeoutValue": 3000 // 如果下游请求的处理时间超过多少则视如该请求超时
+      },
+      "HttpHandlerOptions": {
+        "UseTracing": false // use butterfly to tracing request chain
+      },
+      "ReRoutesCaseSensitive": false // non case sensitive
     }
   ],
 

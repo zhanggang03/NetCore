@@ -7,13 +7,13 @@
 
   <ItemGroup>
     <Compile Remove="API\**" />
-    <Compile Remove="Controllers\**" />
     <Content Remove="API\**" />
-    <Content Remove="Controllers\**" />
     <EmbeddedResource Remove="API\**" />
-    <EmbeddedResource Remove="Controllers\**" />
     <None Remove="API\**" />
-    <None Remove="Controllers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\AccountController.cs" />
   </ItemGroup>
 
 
@@ -23,6 +23,11 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Profile\" />
   </ItemGroup>
 
 </Project>

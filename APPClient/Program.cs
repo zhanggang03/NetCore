@@ -27,7 +27,7 @@ namespace APPClient
                     Address = disco.TokenEndpoint,
                     ClientId = "client",
                     ClientSecret = "secret",
-                    Scope = "MsCoreApi"
+                    //Scope = "MsCoreApi"
                 });
                 if (tokenResponse.IsError)
                 {

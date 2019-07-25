@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SSO.Validator;
 
 namespace SSO
 {
@@ -82,7 +83,9 @@ namespace SSO
                 .AddDeveloperSigningCredential()
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryClients(Config.GetClient())
-                .AddInMemoryIdentityResources(Config.GetIdentityResources());
+                .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddResourceOwnerValidator<CustomResourceOwnerPasswordValidator>();   //在使用Password验证中，如果不用TestUser用户，必须定义此项CustomResourceOwnerPasswordValidator
+                //.AddTestUsers(Config.GetUser());    //注意此项，在各种类型验证中，可以使用数据库持久化数据验证，否则必须使用TestUser数据验证
             //从数据库增加数据
             //.AddConfigurationStore(options =>
             //{

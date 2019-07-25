@@ -15,6 +15,7 @@ using Ocelot.Middleware;
 using Ocelot.Provider.Consul;
 using Ocelot.Cache.CacheManager;
 using Ocelot.Provider.Polly;
+using IdentityServer4.AccessTokenValidation;
 
 namespace OcelotGetway
 {
@@ -31,6 +32,32 @@ namespace OcelotGetway
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            #region IdentityServerAuthenticationOptions => need to refactor
+            Action<IdentityServerAuthenticationOptions> isaOptClient = option =>
+            {
+                option.Authority = "https://localhost:44379";
+                option.ApiName = "WebApiA";
+                option.RequireHttpsMetadata = true;
+                option.SupportedTokens = SupportedTokens.Both;
+                //option.ApiSecret = Configuration["IdentityService:ApiSecrets:clientservice"];
+            };
+
+            Action<IdentityServerAuthenticationOptions> isaOptProduct = option =>
+            {
+                option.Authority = "https://localhost:44379";
+                option.ApiName = "WebApiB";
+                option.RequireHttpsMetadata = true;
+                option.SupportedTokens = SupportedTokens.Both;
+                //option.ApiSecret = Configuration["IdentityService:ApiSecrets:productservice"];
+            };
+            #endregion
+
+            services.AddAuthentication()
+                .AddIdentityServerAuthentication("WebApiAKey", isaOptClient)
+                .AddIdentityServerAuthentication("WebApiBKey", isaOptProduct);
+
+
             services.AddOcelot(new ConfigurationBuilder().AddJsonFile("configuration.json").Build())
                 .AddConsul().AddPolly().AddCacheManager(x => x.WithDictionaryHandle());
         }

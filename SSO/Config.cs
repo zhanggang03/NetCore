@@ -73,6 +73,22 @@ namespace SSO
                 },
                new Client
                 {
+                    //客户端id自定义
+                    ClientId = "clientApi",
+                    AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    // 加密验证
+                    ClientSecrets = new List<Secret>
+                    {
+                        new Secret("secret".Sha256())
+                    },
+                    // client可以访问的范围，在GetScopes方法定义的名字。
+                    AllowedScopes = new List<string>
+                    {
+                        "MsCoreApi","WebApiA","WebApiB"
+                    }
+                },
+               new Client
+                {
                     ClientId = "core_swagger",//客服端名称
                     AllowedGrantTypes = GrantTypes.Implicit,//指定允许的授权类型（AuthorizationCode，Implicit，Hybrid，ResourceOwner，ClientCredentials的合法组合）。
                     AllowAccessTokensViaBrowser = true,//是否通过浏览器为此客户端传输访问令牌
@@ -170,7 +186,10 @@ namespace SSO
                         new Secret("secret".Sha256())
                     },
                     UserClaims = new [] { "role" }   //在JWT Token中包含Role 资源
-                }
+                },
+
+                new ApiResource("WebApiA", "WebApiA Service"),
+                new ApiResource("WebApiB", "WebApiB Service"),
             };
         }
 
