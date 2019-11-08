@@ -60,7 +60,7 @@ namespace MSCore.Controllers
             return response;
         }
 
-        [HttpPost]
+        [HttpPost, Route("CreateDept")]
         [Description("增加科室")]
         public ServiceResponseMessage<DeptDTO> CreateDept(DeptDTO requestDto)
         {
